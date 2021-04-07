@@ -23,7 +23,7 @@ ui<-fluidPage(
              ),
              conditionalPanel(
                condition = "input.dist == 'Poisson'",
-               numericInput("lambda","Lambda: ", value = 1),
+               numericInput("lambda","Lambda: ", value = 1,min = 0)
              ),
              conditionalPanel(
                condition = "input.dist == 'Binomial'",
@@ -46,12 +46,12 @@ ui<-fluidPage(
               conditionalPanel(
                 condition = "input.dist2 == 'Normal' && input.otradist == true",
                 numericInput("media2","Media: ", value = 0),
-                numericInput("desv2", "Desviación típica: ", value = 1)
+                numericInput("desv2", "Desviación típica: ", value = 1,min = 0)
               ),
               conditionalPanel(
                 condition = "input.dist2 == 'Beta' && input.otradist == true",
-                numericInput("alfa2","Alfa: ", value = 1),
-                numericInput("beta2", "Beta: ", value = 1)
+                numericInput("alfa2","Alfa: ", value = 1, min = 0),
+                numericInput("beta2", "Beta: ", value = 1, min = 0)
               ),
               conditionalPanel(
                 condition = "input.dist2 == 'Poisson' && input.otradist == true",
@@ -63,8 +63,8 @@ ui<-fluidPage(
               ),
               conditionalPanel(
                 condition = "input.dist2 == 'Binomial' && input.otradist == true",
-                numericInput("n2","n: ", value = 10),
-                numericInput("p2", "p: ", value = 0.5)
+                numericInput("n2","n: ", value = 10, min = 1),
+                numericInput("p2", "p: ", value = 0.5, min = 0)
               ),
        )
              
@@ -104,8 +104,10 @@ server<-function(input, output, session){
                       "Binomial"=dbinom(puntos,n(),p()),
                       "Chi-cuadrado"=dchisq(puntos,df()))
       media<-switch(dist(),"Normal"=media(),"Beta"=alfa()/(alfa()+beta()),"Poisson"=lambda(),"Binomial" = n()*p(),"Chi-cuadrado" = df2())
-      plot(puntos,Density,type="l", col = "cyan3",lwd=2.5, xlab="Values",main=dist())
+      yl<<-c(0,4*max(Density)/3)
+      plot(puntos,Density,type="l", col = "cyan3",lwd=2.5, xlab="Values",main=dist(),ylim=yl)
       abline(v = media, col="cyan2",lwd = 2, lty = 2)})
+    
     dist2<-reactive(input$dist2)
     media2<-reactive(input$media2)
     sd2<-reactive(input$desv2)
@@ -127,7 +129,7 @@ server<-function(input, output, session){
                        "Binomial"=dbinom(puntos2,n2(),p2()),
                        "Chi-cuadrado"=dchisq(puntos2,df2()))
       media2<-switch(dist2(),"Normal"=media2(),"Beta"=alfa2()/(alfa2()+beta2()),"Poisson"=lambda2(),"Binomial" = n2()*p2(),"Chi-cuadrado" = df2())
-      plot(puntos2,Density2,type="l", col = "indianred2",lwd=2.5, xlab="Values",main=dist2())
+      plot(puntos2,Density2,type="l", col = "indianred2",lwd=2.5, xlab="Values",main=dist2(),ylim=yl)
       abline(v = media2, col="mediumaquamarine",lwd = 2, lty = 2)})
       
 }
