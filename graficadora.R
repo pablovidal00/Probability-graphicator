@@ -129,7 +129,7 @@ server<-function(input, output, session){
       media2<-switch(dist2(),"Normal"=media2(),"Beta"=alfa2()/(alfa2()+beta2()),"Poisson"=lambda2(),"Binomial" = n2()*p2(),"Chi-cuadrado" = df2())
       plot(puntos2,Density2,type="l", col = "indianred2",lwd=2.5, xlab="Values",main=dist2())
       abline(v = media2, col="mediumaquamarine",lwd = 2, lty = 2)})
-      #text(x=((sup2+inf2)/2)*1.2,y=median(Densidad2),expression(cat("Media = ",media)))
+      
 }
 
 shinyApp(ui, server)
