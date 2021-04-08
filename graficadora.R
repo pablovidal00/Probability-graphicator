@@ -1,5 +1,5 @@
 ui<-fluidPage(
-    titlePanel("Graph a probability distribution :)", windowTitle = "Nice"),
+    titlePanel(":)", windowTitle = "Nice"),
     fluidRow(
       column(2,
         selectInput("dist","Choose the probability distribution: ", choices =
@@ -45,12 +45,12 @@ ui<-fluidPage(
       column(2,
               conditionalPanel(
                 condition = "input.dist2 == 'Normal' && input.otradist == true",
-                numericInput("media2","Media: ", value = 0),
-                numericInput("desv2", "Desviación típica: ", value = 1,min = 0)
+                numericInput("media2","Mean: ", value = 0),
+                numericInput("desv2", "Standard deviation: ", value = 1,min = 0)
               ),
               conditionalPanel(
                 condition = "input.dist2 == 'Beta' && input.otradist == true",
-                numericInput("alfa2","Alfa: ", value = 1, min = 0),
+                numericInput("alfa2","Alpha: ", value = 1, min = 0),
                 numericInput("beta2", "Beta: ", value = 1, min = 0)
               ),
               conditionalPanel(
@@ -59,7 +59,7 @@ ui<-fluidPage(
               ),
               conditionalPanel(
                 condition = "input.dist2 == 'Chi-cuadrado' && input.otradist == true",
-                numericInput("df2", "Grados de libertad: ", value = 1, min = 1, step = 1)
+                numericInput("df2", "Degrees of freedom: ", value = 1, min = 1, step = 1)
               ),
               conditionalPanel(
                 condition = "input.dist2 == 'Binomial' && input.otradist == true",
@@ -76,7 +76,7 @@ ui<-fluidPage(
       
       column(6,
              conditionalPanel(
-               condition = "input.otradist== true && dist2!=='Ninguna :)'",
+               condition = "input.otradist== true && dist2!=='None :)'",
                plotOutput("plot2")
              )
       )
